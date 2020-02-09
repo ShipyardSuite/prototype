@@ -1,0 +1,4 @@
+dns_resolver: server
+dns_resolvers_available:
+    server:
+        address: "consul:8600"

@@ -1,29 +1,43 @@
-version: '3'
+version: "3"
+
+volumes:
+    mongo_data:
+    db-postgres:
 
 services:
     main:
         build: .
         volumes:
-            - .:/app
+            - ./:/usr/src/app
+        working_dir: /usr/src/app
+        command: sh -c 'npm install; npm install bcrypt; npm run start:dev'
+        container_name: main
         ports:
-            - 3000:3000
+            - "3000:3000"
+        depends_on:
+            - mongo
+        links:
+            - mongo
         networks:
             - all
+        env_file:
+            - .env
         environment:
-            SERVICE_PORT: ${SERVICE_PORT}
+            SERVICE_NAME: ${SERVICE_NAME}
             DATABASE_URL: ${DATABASE_URL}
-        command: npm start
+            SERVICE_PORT: ${SERVICE_PORT}
 
     mongo:
         image: mongo:3
         container_name: mongo
         command: mongod --smallfiles --bind_ip_all
         volumes:
-            - ./data:/data/db
+            - mongo_data:/data/db
         restart: always
         ports:
             - "27017:27017"
         networks:
             - all
+
 networks:
     all:

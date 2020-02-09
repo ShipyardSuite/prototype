@@ -1,4 +1,5 @@
 import express = require('express');
+
 import { RoutesConfig, ExpressConfig, DbConfig } from './config';
 
 export class Server {
@@ -8,8 +9,8 @@ export class Server {
 
 	constructor() {
 		this.app = express();
-		this.port = Number(process.env.SERVICE_PORT) || 3000;
-		this.database = String(process.env.DATABASE_URL) || 'mongodb://mongo:27017/db';
+		this.port = Number(process.env.SERVICE_PORT);
+		this.database = String(process.env.DATABASE_URL);
 	}
 
 	execute() {
