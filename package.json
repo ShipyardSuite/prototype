@@ -2,13 +2,13 @@
 	"name": "prototype",
 	"version": "0.1.0",
 	"description": "Shipyard showcase prototype",
-	"main": "src/app.ts",
+	"main": "server/index.ts",
 	"scripts": {
 		"start": "npm run build:prod && npm run start:prod",
-		"build:dev": "cd src/ && ts-node app.ts",
-		"start:dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/app.ts",
+		"build:dev": "cd server/ && ts-node index.ts",
+		"start:dev": "nodemon --watch 'server/**/*.ts' --exec 'ts-node' server/index.ts",
 		"build:prod": "tsc -p .",
-		"start:prod": "cd dist && node app.js"
+		"start:prod": "cd dist && node index.js"
 	},
 	"repository": {
 		"type": "git",
