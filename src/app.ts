@@ -1,56 +1,18 @@
 import * as http from 'http';
+import mongoose = require('mongoose');
 import path from 'path';
 import express = require('express');
 import { config } from 'dotenv';
 
 config({ path: path.resolve(__dirname, '../.env') });
 
-const port: number = Number(process.env.PORT) || 3000;
-const helloString: string = 'Hello World!';
+mongoose.connect(String(process.env.DATABASE_URL), { useNewUrlParser: true });
 
+const port: number = Number(process.env.SERVICE_PORT);
 const app: express.Application = express();
 
-app.get(`/api/:token/status/`, (req, res, next) => {
-	res.json({
-		success: true,
-		data: {
-			token: req.params.token,
-			projectTitle: 'TestProject',
-			messageOfTheDay: {
-				header: 'TestMessage',
-				body: 'This is a test message'
-			},
-			user: {
-				username: 'testUser'
-			},
-			content: {
-				characters: [
-					{
-						id: 0,
-						name: 'Rick',
-						class: 'sorcerer'
-					},
-					{
-						id: 1,
-						name: 'Tony',
-						class: 'scientist'
-					}
-				],
-				weapons: [
-					{
-						id: 0,
-						name: 'weapon 1',
-						damage: 3
-					},
-					{
-						id: 1,
-						name: 'weapon 2',
-						damage: 1
-					}
-				]
-			}
-		}
-	});
+app.get('/', function(req, res) {
+	res.send(`Mongoose connection status: ${mongoose.connection.readyState ? String(true) : String(false)}`);
 });
 
 app.listen(port, function() {
