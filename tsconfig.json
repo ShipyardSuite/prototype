@@ -9,9 +9,10 @@
         "declarationMap": true,
         "sourceMap": true,
         "outDir": "dist",
-        "rootDir": "src",
+        "rootDir": "server",
         "removeComments": true,
         "strict": true,
+        "forceConsistentCasingInFileNames": false,
         "noImplicitAny": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
@@ -20,7 +21,7 @@
     },
     "include":
     [
-        "./src/**/*"
+        "./server/**/*"
     ],
     "exclude":
     [
