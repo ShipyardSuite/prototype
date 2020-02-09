@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  express:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+    networks:
+      - all
+    command: npm start
+networks:
+  all:
