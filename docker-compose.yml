@@ -2,7 +2,6 @@ version: "3"
 
 volumes:
     mongo_data:
-    db-postgres:
 
 services:
     main:
