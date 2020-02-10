@@ -2,3 +2,5 @@
 /_legacy
 /data
 /dist
+
+.env
