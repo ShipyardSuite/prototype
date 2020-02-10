@@ -1,14 +1,21 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import bcrypt from 'bcrypt';
+import mongoose = require('mongoose');
+import Schema = mongoose.Schema;
+import Document = mongoose.Document;
+
+import bcrypt = require('bcrypt');
 
 export interface IUser extends Document {
 	email: String;
 	password: String;
+	verificationToken: String;
+	generateHash(password: string): String;
+	validPassword(password: string): String;
 }
 
 const UserSchema: Schema = new Schema({
 	email: { type: String, required: true, unique: true },
-	password: { type: String }
+	password: { type: String },
+	verificationToken: { type: String }
 });
 
 UserSchema.methods.generateHash = function(password: string) {
