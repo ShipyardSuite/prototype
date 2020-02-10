@@ -1,1 +1,1 @@
-{"version":3,"sources":["app/styles/style.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA","file":"public/app.css","sourcesContent":[".DBFetcher {\n\tpadding: 25px;\n\tfont-size: 12px;\n}\n"]}
+{"version":3,"sources":["app/styles/style.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA","file":"public/app.css","sourcesContent":[".DBFetcher {\n    padding: 25px;\n    font-size: 12px;\n}\n"]}

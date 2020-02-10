@@ -196,20 +196,235 @@ var App = function (_Component) {
 exports.default = App;
 });
 
-require.register("containers/Home/Home.js", function(exports, require, module) {
-'use strict';
+require.register("components/HeaderMenu/HeaderMenu.js", function(exports, require, module) {
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require('react');
+var _reactRouterDom = require("react-router-dom");
+
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _baseLayout = require('@shipyardsuite/base-layout');
+var _semanticUiReact = require("semantic-ui-react");
+
+var _storage = require("./../../utils/storage");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var HeaderMenu = function (_Component) {
+    _inherits(HeaderMenu, _Component);
+
+    function HeaderMenu(props) {
+        _classCallCheck(this, HeaderMenu);
+
+        var _this = _possibleConstructorReturn(this, (HeaderMenu.__proto__ || Object.getPrototypeOf(HeaderMenu)).call(this, props));
+
+        _this.state = {
+            activeItem: "home",
+            isLoading: true,
+            isLoggedIn: false,
+            token: ""
+        };
+        return _this;
+    }
+
+    _createClass(HeaderMenu, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            var obj = (0, _storage.getFromStorage)("botany-bay");
+
+            if (obj && obj.token !== "") {} else {
+                this.setState({ isLoggedIn: false });
+                return this.props.history.push("/login");
+            }
+
+            if (obj && obj.token) {
+                var token = obj.token;
+
+                // Verify token
+
+                fetch("/api/Prototype/user/verify?token=" + token).then(function (res) {
+                    return res.json();
+                }).then(function (json) {
+                    if (json.success) {
+                        _this2.setState({
+                            token: token,
+                            isLoggedIn: true,
+                            isLoading: false
+                        });
+                    } else {
+                        _this2.setState({
+                            isLoading: false,
+                            isLoggedIn: false,
+                            userData: []
+                        });
+                    }
+                });
+            } else {
+                this.setState({
+                    isLoading: false
+                });
+            }
+        }
+    }, {
+        key: "handleClick",
+        value: function handleClick(e, _ref) {
+            var name = _ref.name;
+
+            this.setState({ activeItem: name });
+        }
+    }, {
+        key: "handleLogout",
+        value: function handleLogout() {
+            var _this3 = this;
+
+            this.setState({
+                isLoading: true
+            });
+
+            var obj = (0, _storage.getFromStorage)("botany-bay");
+
+            if (obj && obj.token) {
+                var token = obj.token;
+
+                // Verify token
+
+                fetch("/api/Prototype/user/logout?token=" + token).then(function (res) {
+                    return res.json();
+                }).then(function (json) {
+                    if (json.success) {
+                        localStorage.removeItem("botany-bay");
+
+                        _this3.setState({
+                            token: "",
+                            signInError: "",
+                            isLoading: false
+                        }, function () {
+                            return _this3.props.history.push("/");
+                        });
+                    } else {
+                        _this3.setState({
+                            isLoading: false
+                        });
+                    }
+                });
+            } else {
+                this.setState({
+                    isLoading: false
+                });
+            }
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _state = this.state,
+                activeItem = _state.activeItem,
+                isLoggedIn = _state.isLoggedIn;
+
+
+            return _react2.default.createElement(
+                _semanticUiReact.Menu,
+                { secondary: true, stackable: true },
+                _react2.default.createElement(
+                    _semanticUiReact.Menu.Item,
+                    { header: true },
+                    "Shipyard"
+                ),
+                _react2.default.createElement(
+                    _semanticUiReact.Menu.Item,
+                    {
+                        name: "home",
+                        active: activeItem === "home",
+                        onClick: this.handleClick.bind(this)
+                    },
+                    "Home"
+                ),
+                isLoggedIn ? _react2.default.createElement(
+                    _semanticUiReact.Menu.Menu,
+                    { position: "right" },
+                    _react2.default.createElement(
+                        _semanticUiReact.Menu.Item,
+                        {
+                            name: "logout",
+                            active: activeItem === "logout",
+                            onClick: this.handleLogout.bind(this)
+                        },
+                        "Logout"
+                    )
+                ) : _react2.default.createElement(
+                    _semanticUiReact.Menu.Menu,
+                    { position: "right" },
+                    _react2.default.createElement(
+                        _semanticUiReact.Menu.Item,
+                        {
+                            name: "login",
+                            active: activeItem === "login",
+                            onClick: this.handleClick.bind(this),
+                            as: _reactRouterDom.NavLink,
+                            exact: true,
+                            to: "/login"
+                        },
+                        "Login"
+                    ),
+                    _react2.default.createElement(
+                        _semanticUiReact.Menu.Item,
+                        {
+                            name: "register",
+                            active: activeItem === "register",
+                            onClick: this.handleClick.bind(this),
+                            as: _reactRouterDom.NavLink,
+                            exact: true,
+                            to: "/register"
+                        },
+                        "Register"
+                    )
+                )
+            );
+        }
+    }]);
+
+    return HeaderMenu;
+}(_react.Component);
+
+exports.default = (0, _reactRouterDom.withRouter)(HeaderMenu);
+});
+
+require.register("containers/Home/Home.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _isomorphicUnfetch = require("isomorphic-unfetch");
+
+var _isomorphicUnfetch2 = _interopRequireDefault(_isomorphicUnfetch);
+
+var _baseLayout = require("@shipyardsuite/base-layout");
+
+var _HeaderMenu = require("../../components/HeaderMenu/HeaderMenu");
+
+var _HeaderMenu2 = _interopRequireDefault(_HeaderMenu);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -220,44 +435,232 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Home = function (_Component) {
-	_inherits(Home, _Component);
+    _inherits(Home, _Component);
 
-	function Home(props) {
-		_classCallCheck(this, Home);
+    function Home(props) {
+        _classCallCheck(this, Home);
 
-		var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
 
-		_this.state = {};
-		return _this;
-	}
+        _this.state = {};
+        return _this;
+    }
 
-	_createClass(Home, [{
-		key: 'render',
-		value: function render() {
-			return _react2.default.createElement(
-				'div',
-				null,
-				_react2.default.createElement(_baseLayout.DBFetcher, { url: '/api/Prototype/test' })
-			);
-		}
-	}]);
+    _createClass(Home, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            (0, _isomorphicUnfetch2.default)("/api/Prototype/users").then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                console.log(data);
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                null,
+                _react2.default.createElement(_HeaderMenu2.default, null),
+                _react2.default.createElement(_baseLayout.DBFetcher, { url: "/api/Prototype/test" })
+            );
+        }
+    }]);
 
-	return Home;
+    return Home;
 }(_react.Component);
 
 exports.default = Home;
 });
 
-require.register("containers/NotFound/NotFound.js", function(exports, require, module) {
-'use strict';
+;require.register("containers/Login/Login.js", function(exports, require, module) {
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require('react');
+var _reactRouterDom = require("react-router-dom");
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _semanticUiReact = require("semantic-ui-react");
+
+var _storage = require("./../../utils/storage");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Login = function (_Component) {
+    _inherits(Login, _Component);
+
+    function Login(props) {
+        _classCallCheck(this, Login);
+
+        var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
+
+        _this.state = {
+            token: "",
+            loginError: "",
+            email: "",
+            password: ""
+        };
+        return _this;
+    }
+
+    _createClass(Login, [{
+        key: "handleChange",
+        value: function handleChange(e, _ref) {
+            var name = _ref.name,
+                value = _ref.value;
+
+            this.setState(_defineProperty({}, name, value));
+        }
+    }, {
+        key: "onLogin",
+        value: function onLogin() {
+            var _this2 = this;
+
+            var _state = this.state,
+                email = _state.email,
+                password = _state.password;
+
+
+            this.setState({
+                loginError: ""
+            }, function () {
+                fetch("/api/Prototype/user/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (json) {
+                    if (json.success) {
+                        (0, _storage.setInStorage)("botany-bay", { token: json.token });
+
+                        _this2.props.history.push("/");
+
+                        _this2.setState({
+                            loginError: json.message,
+                            email: "",
+                            password: "",
+                            token: json.token
+                        });
+                    } else {
+                        _this2.setState({
+                            loginError: json.message
+                        });
+                    }
+                });
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _state2 = this.state,
+                email = _state2.email,
+                password = _state2.password,
+                loginError = _state2.loginError;
+
+
+            return _react2.default.createElement(
+                _semanticUiReact.Segment,
+                { basic: true },
+                _react2.default.createElement(
+                    _semanticUiReact.Header,
+                    { as: "h2", color: "black", textAlign: "center" },
+                    "Log-in"
+                ),
+                _react2.default.createElement(
+                    _semanticUiReact.Form,
+                    { size: "large" },
+                    _react2.default.createElement(
+                        _semanticUiReact.Segment,
+                        { raised: true },
+                        _react2.default.createElement(_semanticUiReact.Form.Input, {
+                            type: "email",
+                            name: "email",
+                            fluid: true,
+                            icon: "user",
+                            iconPosition: "left",
+                            value: email,
+                            onChange: this.handleChange.bind(this),
+                            placeholder: "E-mail address"
+                        }),
+                        _react2.default.createElement(_semanticUiReact.Form.Input, {
+                            fluid: true,
+                            icon: "lock",
+                            iconPosition: "left",
+                            placeholder: "Password",
+                            type: "password",
+                            name: "password",
+                            value: password,
+                            onChange: this.handleChange.bind(this)
+                        }),
+                        _react2.default.createElement(
+                            _semanticUiReact.Button,
+                            {
+                                color: "teal",
+                                fluid: true,
+                                size: "large",
+                                onClick: this.onLogin.bind(this)
+                            },
+                            "Login"
+                        ),
+                        _react2.default.createElement(
+                            _semanticUiReact.Message,
+                            null,
+                            "Dont have an account yet?\xA0",
+                            _react2.default.createElement(
+                                _reactRouterDom.NavLink,
+                                { exact: true, to: "/register" },
+                                "Create one now!"
+                            )
+                        ),
+                        loginError ? _react2.default.createElement(
+                            _semanticUiReact.Message,
+                            { color: "red" },
+                            loginError
+                        ) : null
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Login;
+}(_react.Component);
+
+exports.default = (0, _reactRouterDom.withRouter)(Login);
+});
+
+require.register("containers/NotFound/NotFound.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -270,77 +673,315 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var NotFound = function (_Component) {
-	_inherits(NotFound, _Component);
+    _inherits(NotFound, _Component);
 
-	function NotFound(props) {
-		_classCallCheck(this, NotFound);
+    function NotFound(props) {
+        _classCallCheck(this, NotFound);
 
-		var _this = _possibleConstructorReturn(this, (NotFound.__proto__ || Object.getPrototypeOf(NotFound)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (NotFound.__proto__ || Object.getPrototypeOf(NotFound)).call(this, props));
 
-		_this.state = {};
-		return _this;
-	}
+        _this.state = {};
+        return _this;
+    }
 
-	_createClass(NotFound, [{
-		key: 'render',
-		value: function render() {
-			return _react2.default.createElement(
-				'p',
-				null,
-				'Page not found...'
-			);
-		}
-	}]);
+    _createClass(NotFound, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "p",
+                null,
+                "Page not found..."
+            );
+        }
+    }]);
 
-	return NotFound;
+    return NotFound;
 }(_react.Component);
 
 exports.default = NotFound;
 });
 
-require.register("initialize.js", function(exports, require, module) {
-'use strict';
+;require.register("containers/Register/Register.js", function(exports, require, module) {
+"use strict";
 
-var _react = require('react');
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _reactRouterDom = require("react-router-dom");
+
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
+var _semanticUiReact = require("semantic-ui-react");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Register = function (_Component) {
+    _inherits(Register, _Component);
+
+    function Register(props) {
+        _classCallCheck(this, Register);
+
+        var _this = _possibleConstructorReturn(this, (Register.__proto__ || Object.getPrototypeOf(Register)).call(this, props));
+
+        _this.state = {
+            signUpError: "",
+            registrationSuccess: false,
+            email: "",
+            password: "",
+            passwordValidation: ""
+        };
+        return _this;
+    }
+
+    _createClass(Register, [{
+        key: "handleChange",
+        value: function handleChange(e, _ref) {
+            var name = _ref.name,
+                value = _ref.value;
+
+            this.setState(_defineProperty({}, name, value));
+        }
+    }, {
+        key: "onSignUp",
+        value: function onSignUp() {
+            var _this2 = this;
+
+            var _state = this.state,
+                email = _state.email,
+                password = _state.password,
+                passwordValidation = _state.passwordValidation;
+
+
+            if (password === passwordValidation) {
+                fetch("/api/Prototype/user/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (json) {
+                    if (json.success) {
+                        _this2.setState({
+                            signUpError: json.message,
+                            registrationSuccess: true,
+                            email: "",
+                            password: ""
+                        });
+                    } else {
+                        _this2.setState({
+                            signUpError: json.message
+                        });
+                    }
+                });
+            } else {
+                this.setState({
+                    signUpError: "Passwords did not match!"
+                });
+            }
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _state2 = this.state,
+                email = _state2.email,
+                password = _state2.password,
+                passwordValidation = _state2.passwordValidation,
+                registrationSuccess = _state2.registrationSuccess,
+                signUpError = _state2.signUpError;
+
+
+            return _react2.default.createElement(
+                _semanticUiReact.Segment,
+                { basic: true },
+                _react2.default.createElement(
+                    _semanticUiReact.Header,
+                    { as: "h2", color: "black", textAlign: "center" },
+                    "Register new Account"
+                ),
+                _react2.default.createElement(
+                    _semanticUiReact.Form,
+                    { size: "large" },
+                    _react2.default.createElement(
+                        _semanticUiReact.Segment,
+                        { raised: true, disabled: registrationSuccess },
+                        _react2.default.createElement(_semanticUiReact.Form.Input, {
+                            fluid: true,
+                            type: "email",
+                            icon: "user",
+                            iconPosition: "left",
+                            placeholder: "E-mail address",
+                            name: "email",
+                            value: email,
+                            onChange: this.handleChange.bind(this)
+                        }),
+                        _react2.default.createElement(_semanticUiReact.Form.Input, {
+                            fluid: true,
+                            type: "password",
+                            icon: "lock",
+                            iconPosition: "left",
+                            placeholder: "Password",
+                            name: "password",
+                            value: password,
+                            onChange: this.handleChange.bind(this)
+                        }),
+                        _react2.default.createElement(_semanticUiReact.Form.Input, {
+                            fluid: true,
+                            type: "password",
+                            icon: "lock",
+                            iconPosition: "left",
+                            placeholder: "Repeat Password",
+                            name: "passwordValidation",
+                            value: passwordValidation,
+                            onChange: this.handleChange.bind(this)
+                        }),
+                        _react2.default.createElement(
+                            _semanticUiReact.Button,
+                            {
+                                color: "teal",
+                                fluid: true,
+                                size: "large",
+                                onClick: this.onSignUp.bind(this)
+                            },
+                            "Register"
+                        ),
+                        registrationSuccess ? _react2.default.createElement(
+                            _semanticUiReact.Message,
+                            { color: "green" },
+                            "Registration Successful, check your emails.\xA0",
+                            _react2.default.createElement(
+                                _reactRouterDom.NavLink,
+                                { exact: true, to: "/" },
+                                "Back to Homepage"
+                            )
+                        ) : null,
+                        signUpError ? _react2.default.createElement(
+                            _semanticUiReact.Message,
+                            { color: "red" },
+                            signUpError
+                        ) : null
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Register;
+}(_react.Component);
+
+exports.default = Register;
+});
+
+;require.register("initialize.js", function(exports, require, module) {
+"use strict";
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require("react-dom");
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRouterDom = require('react-router-dom');
+var _reactRouterDom = require("react-router-dom");
 
-var _App = require('./App');
+var _App = require("./App");
 
 var _App2 = _interopRequireDefault(_App);
 
-var _Home = require('./containers/Home/Home');
+var _Home = require("./containers/Home/Home");
 
 var _Home2 = _interopRequireDefault(_Home);
 
-var _NotFound = require('./containers/NotFound/NotFound');
+var _NotFound = require("./containers/NotFound/NotFound");
 
 var _NotFound2 = _interopRequireDefault(_NotFound);
+
+var _Register = require("./containers/Register/Register");
+
+var _Register2 = _interopRequireDefault(_Register);
+
+var _Login = require("./containers/Login/Login");
+
+var _Login2 = _interopRequireDefault(_Login);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _reactDom2.default.render(_react2.default.createElement(
-	_reactRouterDom.BrowserRouter,
-	null,
-	_react2.default.createElement(
-		_App2.default,
-		null,
-		_react2.default.createElement(
-			_reactRouterDom.Switch,
-			null,
-			_react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
-			_react2.default.createElement(_reactRouterDom.Route, { component: _NotFound2.default })
-		)
-	)
-), document.querySelector('#root'));
+    _reactRouterDom.BrowserRouter,
+    null,
+    _react2.default.createElement(
+        _App2.default,
+        null,
+        _react2.default.createElement(
+            _reactRouterDom.Switch,
+            null,
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/", component: _Home2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/register", component: _Register2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/login", component: _Login2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { component: _NotFound2.default })
+        )
+    )
+), document.querySelector("#root"));
 });
 
+require.register("utils/storage.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getFromStorage = getFromStorage;
+exports.setInStorage = setInStorage;
+function getFromStorage(key) {
+    if (!key) {
+        return null;
+    }
+
+    try {
+        var valueStr = localStorage.getItem(key);
+
+        if (valueStr) {
+            return JSON.parse(valueStr);
+        }
+
+        return null;
+    } catch (err) {
+        return null;
+    }
+}
+
+function setInStorage(key, obj) {
+    if (!key) {
+        console.error("Error: Key is missing");
+    }
+
+    try {
+        localStorage.setItem(key, JSON.stringify(obj));
+    } catch (err) {
+        console.error(err);
+    }
+}
+});
+
+;require.alias("node-browser-modules/node_modules/buffer/index.js", "buffer");
 require.alias("process/browser.js", "process");process = require('process');require.register("___globals___", function(exports, require, module) {
   
 });})();require('___globals___');

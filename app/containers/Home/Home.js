@@ -1,23 +1,33 @@
-'use strict';
+"use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import fetch from "isomorphic-unfetch";
 
-import { DBFetcher } from '@shipyardsuite/base-layout';
+import { DBFetcher } from "@shipyardsuite/base-layout";
 
-class Home extends Component {
-	constructor(props) {
-		super(props);
+import HeaderMenu from "../../components/HeaderMenu/HeaderMenu";
 
-		this.state = {};
-	}
+export default class Home extends Component {
+    constructor(props) {
+        super(props);
 
-	render() {
-		return (
-			<div>
-				<DBFetcher url="/api/Prototype/test" />
-			</div>
-		);
-	}
+        this.state = {};
+    }
+
+    componentDidMount() {
+        fetch("/api/Prototype/users")
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            });
+    }
+
+    render() {
+        return (
+            <div>
+                <HeaderMenu />
+                <DBFetcher url="/api/Prototype/test" />
+            </div>
+        );
+    }
 }
-
-export default Home;
