@@ -46,7 +46,7 @@ class Login extends Component {
                         if (json.success) {
                             setInStorage("botany-bay", { token: json.token });
 
-                            this.props.history.push("/");
+                            this.props.history.push("/dashboard");
 
                             this.setState({
                                 loginError: json.message,

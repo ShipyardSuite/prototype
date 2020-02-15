@@ -555,7 +555,7 @@ var Login = function (_Component) {
                     if (json.success) {
                         (0, _storage.setInStorage)("botany-bay", { token: json.token });
 
-                        _this2.props.history.push("/");
+                        _this2.props.history.push("/dashboard");
 
                         _this2.setState({
                             loginError: json.message,
