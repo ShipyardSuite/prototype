@@ -12,7 +12,7 @@ class HeaderMenu extends Component {
         super(props);
 
         this.state = {
-            activeItem: "home",
+            activeItem: "",
             isLoading: true,
             isLoggedIn: false,
             token: ""
@@ -25,7 +25,7 @@ class HeaderMenu extends Component {
         if (obj && obj.token !== "") {
         } else {
             this.setState({ isLoggedIn: false });
-            return this.props.history.push("/login");
+            //return this.props.history.push("/login");
         }
 
         if (obj && obj.token) {
@@ -36,11 +36,16 @@ class HeaderMenu extends Component {
                 .then(res => res.json())
                 .then(json => {
                     if (json.success) {
-                        this.setState({
-                            token,
-                            isLoggedIn: true,
-                            isLoading: false
-                        });
+                        this.setState(
+                            {
+                                token,
+                                isLoggedIn: true,
+                                isLoading: false
+                            },
+                            () => {
+                                //return this.props.history.push("/dashboard");
+                            }
+                        );
                     } else {
                         this.setState({
                             isLoading: false,
@@ -110,11 +115,23 @@ class HeaderMenu extends Component {
                     name="home"
                     active={activeItem === "home"}
                     onClick={this.handleClick.bind(this)}
+                    as={NavLink}
+                    exact
+                    to="/"
                 >
                     Home
                 </Menu.Item>
                 {isLoggedIn ? (
                     <Menu.Menu position="right">
+                        <Menu.Item
+                            name="dashboard"
+                            active={activeItem === "dashboard"}
+                            onClick={this.handleClick.bind(this)}
+                            as={NavLink}
+                            to="/dashboard"
+                        >
+                            Dashboard
+                        </Menu.Item>
                         <Menu.Item
                             name="logout"
                             active={activeItem === "logout"}

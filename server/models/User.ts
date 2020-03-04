@@ -3,6 +3,7 @@ import Schema = mongoose.Schema;
 import Document = mongoose.Document;
 
 import bcrypt = require("bcrypt");
+import UserProfile, { IUserProfile } from "./UserProfile";
 
 export interface IUser extends Document {
     email: String;
@@ -11,6 +12,7 @@ export interface IUser extends Document {
     isVerified: Boolean;
     isDeleted: Boolean;
     signUpDate: Date;
+    profile: IUserProfile;
     generateHash(password: string): String;
     validPassword(password: string): String;
 }
@@ -30,7 +32,8 @@ const UserSchema: Schema = new Schema({
     isDeleted: {
         type: Boolean,
         default: false
-    }
+    },
+    profile: UserProfile.schema
 });
 
 UserSchema.methods.generateHash = function(password: string) {

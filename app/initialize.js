@@ -4,10 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import App from "./App";
 
-import Home from "./containers/Home/Home";
-import NotFound from "./containers/NotFound/NotFound";
-import Register from "./containers/Register/Register";
-import Login from "./containers/Login/Login";
+import { Home, NotFound, Register, Dashboard, Login } from "./containers";
 
 ReactDOM.render(
     <Router>
@@ -16,6 +13,7 @@ ReactDOM.render(
                 <Route exact path="/" component={Home} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
+                <Route path="/dashboard" component={Dashboard} />
                 <Route component={NotFound} />
             </Switch>
         </App>

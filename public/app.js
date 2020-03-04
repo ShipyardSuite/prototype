@@ -232,7 +232,7 @@ var HeaderMenu = function (_Component) {
         var _this = _possibleConstructorReturn(this, (HeaderMenu.__proto__ || Object.getPrototypeOf(HeaderMenu)).call(this, props));
 
         _this.state = {
-            activeItem: "home",
+            activeItem: "",
             isLoading: true,
             isLoggedIn: false,
             token: ""
@@ -249,7 +249,7 @@ var HeaderMenu = function (_Component) {
 
             if (obj && obj.token !== "") {} else {
                 this.setState({ isLoggedIn: false });
-                return this.props.history.push("/login");
+                //return this.props.history.push("/login");
             }
 
             if (obj && obj.token) {
@@ -265,6 +265,8 @@ var HeaderMenu = function (_Component) {
                             token: token,
                             isLoggedIn: true,
                             isLoading: false
+                        }, function () {
+                            //return this.props.history.push("/dashboard");
                         });
                     } else {
                         _this2.setState({
@@ -349,13 +351,27 @@ var HeaderMenu = function (_Component) {
                     {
                         name: "home",
                         active: activeItem === "home",
-                        onClick: this.handleClick.bind(this)
+                        onClick: this.handleClick.bind(this),
+                        as: _reactRouterDom.NavLink,
+                        exact: true,
+                        to: "/"
                     },
                     "Home"
                 ),
                 isLoggedIn ? _react2.default.createElement(
                     _semanticUiReact.Menu.Menu,
                     { position: "right" },
+                    _react2.default.createElement(
+                        _semanticUiReact.Menu.Item,
+                        {
+                            name: "dashboard",
+                            active: activeItem === "dashboard",
+                            onClick: this.handleClick.bind(this),
+                            as: _reactRouterDom.NavLink,
+                            to: "/dashboard"
+                        },
+                        "Dashboard"
+                    ),
                     _react2.default.createElement(
                         _semanticUiReact.Menu.Item,
                         {
@@ -403,7 +419,113 @@ var HeaderMenu = function (_Component) {
 exports.default = (0, _reactRouterDom.withRouter)(HeaderMenu);
 });
 
-require.register("containers/Home/Home.js", function(exports, require, module) {
+require.register("components/HeaderMenu/index.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.HeaderMenu = undefined;
+
+var _HeaderMenu = require("./HeaderMenu");
+
+var _HeaderMenu2 = _interopRequireDefault(_HeaderMenu);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = { HeaderMenu: _HeaderMenu2.default };
+exports.HeaderMenu = _HeaderMenu2.default;
+});
+
+require.register("components/PageHeader/PageHeader.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _semanticUiReact = require("semantic-ui-react");
+
+var _ = require("./../");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PageHeader = function (_Component) {
+    _inherits(PageHeader, _Component);
+
+    function PageHeader(props) {
+        _classCallCheck(this, PageHeader);
+
+        var _this = _possibleConstructorReturn(this, (PageHeader.__proto__ || Object.getPrototypeOf(PageHeader)).call(this, props));
+
+        _this.state = {};
+        return _this;
+    }
+
+    _createClass(PageHeader, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {}
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(_.HeaderMenu, null);
+        }
+    }]);
+
+    return PageHeader;
+}(_react.Component);
+
+exports.default = PageHeader;
+});
+
+;require.register("components/PageHeader/index.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PageHeader = undefined;
+
+var _PageHeader = require("./PageHeader");
+
+var _PageHeader2 = _interopRequireDefault(_PageHeader);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = { PageHeader: _PageHeader2.default };
+exports.PageHeader = _PageHeader2.default;
+});
+
+require.register("components/index.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PageHeader = exports.HeaderMenu = undefined;
+
+var _HeaderMenu = require("./HeaderMenu");
+
+var _PageHeader = require("./PageHeader");
+
+exports.default = { HeaderMenu: _HeaderMenu.HeaderMenu, PageHeader: _PageHeader.PageHeader };
+exports.HeaderMenu = _HeaderMenu.HeaderMenu;
+exports.PageHeader = _PageHeader.PageHeader;
+});
+
+require.register("containers/Dashboard/Dashboard.js", function(exports, require, module) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -473,7 +595,108 @@ var Home = function (_Component) {
 exports.default = Home;
 });
 
-;require.register("containers/Login/Login.js", function(exports, require, module) {
+;require.register("containers/Dashboard/index.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Dashboard = undefined;
+
+var _Dashboard = require("./Dashboard");
+
+var _Dashboard2 = _interopRequireDefault(_Dashboard);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = { Dashboard: _Dashboard2.default };
+exports.Dashboard = _Dashboard2.default;
+});
+
+require.register("containers/Home/Home.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _isomorphicUnfetch = require("isomorphic-unfetch");
+
+var _isomorphicUnfetch2 = _interopRequireDefault(_isomorphicUnfetch);
+
+var _components = require("../../components");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Home = function (_Component) {
+    _inherits(Home, _Component);
+
+    function Home(props) {
+        _classCallCheck(this, Home);
+
+        var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+
+        _this.state = {};
+        return _this;
+    }
+
+    _createClass(Home, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            (0, _isomorphicUnfetch2.default)("/api/Prototype/users").then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                console.log(data);
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                null,
+                _react2.default.createElement(_components.PageHeader, null)
+            );
+        }
+    }]);
+
+    return Home;
+}(_react.Component);
+
+exports.default = Home;
+});
+
+;require.register("containers/Home/index.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Home = undefined;
+
+var _Home = require("./Home");
+
+var _Home2 = _interopRequireDefault(_Home);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = { Home: _Home2.default };
+exports.Home = _Home2.default;
+});
+
+require.register("containers/Login/Login.js", function(exports, require, module) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -651,6 +874,24 @@ var Login = function (_Component) {
 exports.default = (0, _reactRouterDom.withRouter)(Login);
 });
 
+require.register("containers/Login/index.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Login = undefined;
+
+var _Login = require("./Login");
+
+var _Login2 = _interopRequireDefault(_Login);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = { Login: _Login2.default };
+exports.Login = _Login2.default;
+});
+
 require.register("containers/NotFound/NotFound.js", function(exports, require, module) {
 "use strict";
 
@@ -663,6 +904,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _components = require("../../components");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -685,12 +928,26 @@ var NotFound = function (_Component) {
     }
 
     _createClass(NotFound, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            fetch("/api/Prototype/users").then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                console.log(data);
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
-                "p",
+                "div",
                 null,
-                "Page not found..."
+                _react2.default.createElement(_components.PageHeader, null),
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "404: Page not found..."
+                )
             );
         }
     }]);
@@ -701,7 +958,25 @@ var NotFound = function (_Component) {
 exports.default = NotFound;
 });
 
-;require.register("containers/Register/Register.js", function(exports, require, module) {
+;require.register("containers/NotFound/index.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.NotFound = undefined;
+
+var _NotFound = require("./NotFound");
+
+var _NotFound2 = _interopRequireDefault(_NotFound);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = { NotFound: _NotFound2.default };
+exports.NotFound = _NotFound2.default;
+});
+
+require.register("containers/Register/Register.js", function(exports, require, module) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -889,7 +1164,51 @@ var Register = function (_Component) {
 exports.default = Register;
 });
 
-;require.register("initialize.js", function(exports, require, module) {
+;require.register("containers/Register/index.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Register = undefined;
+
+var _Register = require("./Register");
+
+var _Register2 = _interopRequireDefault(_Register);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = { Register: _Register2.default };
+exports.Register = _Register2.default;
+});
+
+require.register("containers/index.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Register = exports.NotFound = exports.Login = exports.Home = exports.Dashboard = undefined;
+
+var _Dashboard = require("./Dashboard");
+
+var _Home = require("./Home");
+
+var _Login = require("./Login");
+
+var _NotFound = require("./NotFound");
+
+var _Register = require("./Register");
+
+exports.default = { Dashboard: _Dashboard.Dashboard, Home: _Home.Home, Login: _Login.Login, NotFound: _NotFound.NotFound, Register: _Register.Register };
+exports.Dashboard = _Dashboard.Dashboard;
+exports.Home = _Home.Home;
+exports.Login = _Login.Login;
+exports.NotFound = _NotFound.NotFound;
+exports.Register = _Register.Register;
+});
+
+require.register("initialize.js", function(exports, require, module) {
 "use strict";
 
 var _react = require("react");
@@ -906,21 +1225,7 @@ var _App = require("./App");
 
 var _App2 = _interopRequireDefault(_App);
 
-var _Home = require("./containers/Home/Home");
-
-var _Home2 = _interopRequireDefault(_Home);
-
-var _NotFound = require("./containers/NotFound/NotFound");
-
-var _NotFound2 = _interopRequireDefault(_NotFound);
-
-var _Register = require("./containers/Register/Register");
-
-var _Register2 = _interopRequireDefault(_Register);
-
-var _Login = require("./containers/Login/Login");
-
-var _Login2 = _interopRequireDefault(_Login);
+var _containers = require("./containers");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -933,10 +1238,11 @@ _reactDom2.default.render(_react2.default.createElement(
         _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/", component: _Home2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/register", component: _Register2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/login", component: _Login2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { component: _NotFound2.default })
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/", component: _containers.Home }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/register", component: _containers.Register }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/login", component: _containers.Login }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: "/dashboard", component: _containers.Dashboard }),
+            _react2.default.createElement(_reactRouterDom.Route, { component: _containers.NotFound })
         )
     )
 ), document.querySelector("#root"));

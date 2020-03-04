@@ -1,10 +1,13 @@
 "use strict";
 
 import React, { Component } from "react";
+import fetch from "isomorphic-unfetch";
 
-import { PageHeader } from "../../components";
+import { DBFetcher } from "@shipyardsuite/base-layout";
 
-export default class NotFound extends Component {
+import HeaderMenu from "../../components/HeaderMenu/HeaderMenu";
+
+export default class Home extends Component {
     constructor(props) {
         super(props);
 
@@ -22,8 +25,8 @@ export default class NotFound extends Component {
     render() {
         return (
             <div>
-                <PageHeader />
-                <p>404: Page not found...</p>
+                <HeaderMenu />
+                <DBFetcher url="/api/Prototype/test" />
             </div>
         );
     }

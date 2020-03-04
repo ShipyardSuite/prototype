@@ -2,6 +2,7 @@ import SHA256 = require("crypto-js/sha256");
 
 import User, { IUser } from "./../../models/User";
 import UserSession from "./../../models/UserSession";
+import UserProfile from "./../../models/UserProfile";
 
 import express = require("express");
 
@@ -47,20 +48,19 @@ module.exports = (app: express.Application) => {
             newUser.email = userEmail;
             newUser.password = newUser.generateHash(password);
             newUser.verificationToken = SHA256(email).toString();
+            newUser.profile = new UserProfile();
 
             newUser.save((err, user) => {
                 if (err) {
                     return res.send({
                         success: false,
-                        message: "Error: Server error"
+                        message: err.message
                     });
                 }
-
                 return res.send({
                     success: true,
                     data: {
-                        email: userEmail,
-                        password
+                        email: userEmail
                     }
                 });
             });

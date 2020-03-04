@@ -3,9 +3,7 @@
 import React, { Component } from "react";
 import fetch from "isomorphic-unfetch";
 
-import { DBFetcher } from "@shipyardsuite/base-layout";
-
-import HeaderMenu from "../../components/HeaderMenu/HeaderMenu";
+import { PageHeader } from "../../components";
 
 export default class Home extends Component {
     constructor(props) {
@@ -25,8 +23,7 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-                <HeaderMenu />
-                <DBFetcher url="/api/Prototype/test" />
+                <PageHeader />
             </div>
         );
     }
