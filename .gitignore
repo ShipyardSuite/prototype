@@ -2,3 +2,6 @@
 /_legacy
 /data
 /dist
+
+.env
+*.DS_Store

@@ -1,12 +1,12 @@
-FROM node:10-alpine
+FROM node:8-slim
 
-WORKDIR /app
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY . /usr/src/app/
 RUN npm install
 
-COPY . .
-
+ARG CACHEBUST=1
 CMD [ "npm", "start" ]
 
-EXPOSE 3000
+EXPOSE 8080

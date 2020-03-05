@@ -1,0 +1,42 @@
+version: "3"
+
+volumes:
+    mongo_data:
+
+services:
+    main:
+        build: .
+        volumes:
+            - ./:/usr/src/app
+        working_dir: /usr/src/app
+        command: sh -c 'npm install; npm install bcrypt; npm run start:dev'
+        container_name: main
+        ports:
+            - "3000:3000"
+        depends_on:
+            - mongo
+        links:
+            - mongo
+        networks:
+            - all
+        env_file:
+            - .env
+        environment:
+            SERVICE_NAME: ${SERVICE_NAME}
+            DATABASE_URL: ${DATABASE_URL}
+            SERVICE_PORT: ${SERVICE_PORT}
+
+    mongo:
+        image: mongo:3
+        container_name: mongo
+        command: mongod --smallfiles --bind_ip_all
+        volumes:
+            - mongo_data:/data/db
+        restart: always
+        ports:
+            - "27017:27017"
+        networks:
+            - all
+
+networks:
+    all:

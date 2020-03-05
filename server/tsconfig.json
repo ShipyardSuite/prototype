@@ -8,11 +8,9 @@
         "declaration": true,
         "declarationMap": true,
         "sourceMap": true,
-        "outDir": "dist",
-        "rootDir": "server",
+        "outDir": "./../dist",
         "removeComments": true,
         "strict": true,
-        "forceConsistentCasingInFileNames": false,
         "noImplicitAny": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
@@ -21,7 +19,7 @@
     },
     "include":
     [
-        "./server/**/*"
+        "./**/*"
     ],
     "exclude":
     [
