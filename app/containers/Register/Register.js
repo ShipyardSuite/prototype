@@ -73,45 +73,47 @@ export default class Register extends Component {
                     Register new Account
                 </Header>
                 <Form size="large">
-                    <Segment raised disabled={registrationSuccess}>
-                        <Form.Input
-                            fluid
-                            type="email"
-                            icon="user"
-                            iconPosition="left"
-                            placeholder="E-mail address"
-                            name="email"
-                            value={email}
-                            onChange={this.handleChange.bind(this)}
-                        />
-                        <Form.Input
-                            fluid
-                            type="password"
-                            icon="lock"
-                            iconPosition="left"
-                            placeholder="Password"
-                            name="password"
-                            value={password}
-                            onChange={this.handleChange.bind(this)}
-                        />
-                        <Form.Input
-                            fluid
-                            type="password"
-                            icon="lock"
-                            iconPosition="left"
-                            placeholder="Repeat Password"
-                            name="passwordValidation"
-                            value={passwordValidation}
-                            onChange={this.handleChange.bind(this)}
-                        />
-                        <Button
-                            color="teal"
-                            fluid
-                            size="large"
-                            onClick={this.onSignUp.bind(this)}
-                        >
-                            Register
-                        </Button>
+                    <Segment raised>
+                        <Segment vertical disabled={registrationSuccess}>
+                            <Form.Input
+                                fluid
+                                type="email"
+                                icon="user"
+                                iconPosition="left"
+                                placeholder="E-mail address"
+                                name="email"
+                                value={email}
+                                onChange={this.handleChange.bind(this)}
+                            />
+                            <Form.Input
+                                fluid
+                                type="password"
+                                icon="lock"
+                                iconPosition="left"
+                                placeholder="Password"
+                                name="password"
+                                value={password}
+                                onChange={this.handleChange.bind(this)}
+                            />
+                            <Form.Input
+                                fluid
+                                type="password"
+                                icon="lock"
+                                iconPosition="left"
+                                placeholder="Repeat Password"
+                                name="passwordValidation"
+                                value={passwordValidation}
+                                onChange={this.handleChange.bind(this)}
+                            />
+                            <Button
+                                color="teal"
+                                fluid
+                                size="large"
+                                onClick={this.onSignUp.bind(this)}
+                            >
+                                Register
+                            </Button>
+                        </Segment>
                         {registrationSuccess ? (
                             <Message color="green">
                                 Registration Successful, check your

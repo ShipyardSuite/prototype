@@ -817,35 +817,39 @@ var Login = function (_Component) {
                     _react2.default.createElement(
                         _semanticUiReact.Segment,
                         { raised: true },
-                        _react2.default.createElement(_semanticUiReact.Form.Input, {
-                            type: "email",
-                            name: "email",
-                            fluid: true,
-                            icon: "user",
-                            iconPosition: "left",
-                            value: email,
-                            onChange: this.handleChange.bind(this),
-                            placeholder: "E-mail address"
-                        }),
-                        _react2.default.createElement(_semanticUiReact.Form.Input, {
-                            fluid: true,
-                            icon: "lock",
-                            iconPosition: "left",
-                            placeholder: "Password",
-                            type: "password",
-                            name: "password",
-                            value: password,
-                            onChange: this.handleChange.bind(this)
-                        }),
                         _react2.default.createElement(
-                            _semanticUiReact.Button,
-                            {
-                                color: "teal",
+                            _semanticUiReact.Segment,
+                            { vertical: true },
+                            _react2.default.createElement(_semanticUiReact.Form.Input, {
+                                type: "email",
+                                name: "email",
                                 fluid: true,
-                                size: "large",
-                                onClick: this.onLogin.bind(this)
-                            },
-                            "Login"
+                                icon: "user",
+                                iconPosition: "left",
+                                value: email,
+                                onChange: this.handleChange.bind(this),
+                                placeholder: "E-mail address"
+                            }),
+                            _react2.default.createElement(_semanticUiReact.Form.Input, {
+                                fluid: true,
+                                icon: "lock",
+                                iconPosition: "left",
+                                placeholder: "Password",
+                                type: "password",
+                                name: "password",
+                                value: password,
+                                onChange: this.handleChange.bind(this)
+                            }),
+                            _react2.default.createElement(
+                                _semanticUiReact.Button,
+                                {
+                                    color: "teal",
+                                    fluid: true,
+                                    size: "large",
+                                    onClick: this.onLogin.bind(this)
+                                },
+                                "Login"
+                            )
                         ),
                         _react2.default.createElement(
                             _semanticUiReact.Message,
@@ -1096,46 +1100,50 @@ var Register = function (_Component) {
                     { size: "large" },
                     _react2.default.createElement(
                         _semanticUiReact.Segment,
-                        { raised: true, disabled: registrationSuccess },
-                        _react2.default.createElement(_semanticUiReact.Form.Input, {
-                            fluid: true,
-                            type: "email",
-                            icon: "user",
-                            iconPosition: "left",
-                            placeholder: "E-mail address",
-                            name: "email",
-                            value: email,
-                            onChange: this.handleChange.bind(this)
-                        }),
-                        _react2.default.createElement(_semanticUiReact.Form.Input, {
-                            fluid: true,
-                            type: "password",
-                            icon: "lock",
-                            iconPosition: "left",
-                            placeholder: "Password",
-                            name: "password",
-                            value: password,
-                            onChange: this.handleChange.bind(this)
-                        }),
-                        _react2.default.createElement(_semanticUiReact.Form.Input, {
-                            fluid: true,
-                            type: "password",
-                            icon: "lock",
-                            iconPosition: "left",
-                            placeholder: "Repeat Password",
-                            name: "passwordValidation",
-                            value: passwordValidation,
-                            onChange: this.handleChange.bind(this)
-                        }),
+                        { raised: true },
                         _react2.default.createElement(
-                            _semanticUiReact.Button,
-                            {
-                                color: "teal",
+                            _semanticUiReact.Segment,
+                            { vertical: true, disabled: registrationSuccess },
+                            _react2.default.createElement(_semanticUiReact.Form.Input, {
                                 fluid: true,
-                                size: "large",
-                                onClick: this.onSignUp.bind(this)
-                            },
-                            "Register"
+                                type: "email",
+                                icon: "user",
+                                iconPosition: "left",
+                                placeholder: "E-mail address",
+                                name: "email",
+                                value: email,
+                                onChange: this.handleChange.bind(this)
+                            }),
+                            _react2.default.createElement(_semanticUiReact.Form.Input, {
+                                fluid: true,
+                                type: "password",
+                                icon: "lock",
+                                iconPosition: "left",
+                                placeholder: "Password",
+                                name: "password",
+                                value: password,
+                                onChange: this.handleChange.bind(this)
+                            }),
+                            _react2.default.createElement(_semanticUiReact.Form.Input, {
+                                fluid: true,
+                                type: "password",
+                                icon: "lock",
+                                iconPosition: "left",
+                                placeholder: "Repeat Password",
+                                name: "passwordValidation",
+                                value: passwordValidation,
+                                onChange: this.handleChange.bind(this)
+                            }),
+                            _react2.default.createElement(
+                                _semanticUiReact.Button,
+                                {
+                                    color: "teal",
+                                    fluid: true,
+                                    size: "large",
+                                    onClick: this.onSignUp.bind(this)
+                                },
+                                "Register"
+                            )
                         ),
                         registrationSuccess ? _react2.default.createElement(
                             _semanticUiReact.Message,

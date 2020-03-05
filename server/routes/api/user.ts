@@ -109,6 +109,9 @@ module.exports = (app: express.Application) => {
                     });
                 }
 
+                user.lastLogin = new Date();
+                user.save();
+
                 const userSession = new UserSession();
                 userSession.userId = user._id;
 

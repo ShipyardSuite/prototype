@@ -74,34 +74,36 @@ class Login extends Component {
                 </Header>
                 <Form size="large">
                     <Segment raised>
-                        <Form.Input
-                            type="email"
-                            name="email"
-                            fluid
-                            icon="user"
-                            iconPosition="left"
-                            value={email}
-                            onChange={this.handleChange.bind(this)}
-                            placeholder="E-mail address"
-                        />
-                        <Form.Input
-                            fluid
-                            icon="lock"
-                            iconPosition="left"
-                            placeholder="Password"
-                            type="password"
-                            name="password"
-                            value={password}
-                            onChange={this.handleChange.bind(this)}
-                        />
-                        <Button
-                            color="teal"
-                            fluid
-                            size="large"
-                            onClick={this.onLogin.bind(this)}
-                        >
-                            Login
-                        </Button>
+                        <Segment vertical>
+                            <Form.Input
+                                type="email"
+                                name="email"
+                                fluid
+                                icon="user"
+                                iconPosition="left"
+                                value={email}
+                                onChange={this.handleChange.bind(this)}
+                                placeholder="E-mail address"
+                            />
+                            <Form.Input
+                                fluid
+                                icon="lock"
+                                iconPosition="left"
+                                placeholder="Password"
+                                type="password"
+                                name="password"
+                                value={password}
+                                onChange={this.handleChange.bind(this)}
+                            />
+                            <Button
+                                color="teal"
+                                fluid
+                                size="large"
+                                onClick={this.onLogin.bind(this)}
+                            >
+                                Login
+                            </Button>
+                        </Segment>
                         <Message>
                             Dont have an account yet?&nbsp;
                             <NavLink exact to="/register">

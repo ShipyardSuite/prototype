@@ -12,6 +12,7 @@ export interface IUser extends Document {
     isVerified: Boolean;
     isDeleted: Boolean;
     signUpDate: Date;
+    lastLogin: Date;
     profile: IUserProfile;
     generateHash(password: string): String;
     validPassword(password: string): String;
@@ -24,6 +25,9 @@ const UserSchema: Schema = new Schema({
     signUpDate: {
         type: Date,
         default: Date.now()
+    },
+    lastLogin: {
+        type: Date
     },
     isVerified: {
         type: Boolean,
