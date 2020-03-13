@@ -45,7 +45,9 @@ UserSchema.methods.generateHash = function(password: string) {
 };
 
 UserSchema.methods.validPassword = function(password: string) {
-    return bcrypt.compareSync(password, this.password);
+    if (password) {
+        return bcrypt.compareSync(password, this.password);
+    }
 };
 
 export default mongoose.model<IUser>("User", UserSchema);

@@ -201,33 +201,51 @@ module.exports = (app: express.Application) => {
         );
     });
 
-    // Get User-Data by email
-    app.get(`/api/${serviceName}/user/:email`, (req, res, next) => {
-        const email: string = req.params.email;
+    // Get user by Token
+    app.get(`/api/${serviceName}/user/`, (req, res, next) => {
+        const { query } = req;
 
-        User.find({ email }, (err, user: IUser) => {
-            if (err) {
-                console.log(err);
+        UserSession.findById(query.id, (err, data: any) => {
+            User.findById(data.userId, (err, user: any) => {
+                if (err) {
+                    console.log(err);
+
+                    return res.send({
+                        success: false
+                    });
+                }
 
                 return res.send({
-                    success: false,
-                    message: err
+                    success: true,
+                    data: {
+                        user
+                    }
                 });
-            }
-
-            return res.send({
-                success: true,
-                user
             });
         });
     });
 
     // Get User-Data by id
     app.get(`/api/${serviceName}/user/:id`, (req, res, next) => {
-        return res.send({
-            success: true,
-            user: req.params.id
-        });
+        User.find(
+            {
+                _id: req.params.id
+            },
+            (err, user: any) => {
+                if (err) {
+                    console.log(err);
+
+                    return res.send({
+                        success: false
+                    });
+                }
+
+                return res.send({
+                    success: true,
+                    user
+                });
+            }
+        );
     });
 
     // Update User

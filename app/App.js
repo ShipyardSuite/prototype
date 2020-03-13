@@ -1,15 +1,15 @@
-'use strict';
+"use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class App extends Component {
-	constructor(props) {
-		super(props);
-	}
+    constructor(props) {
+        super(props);
+    }
 
-	render() {
-		return <div>{this.props.children}</div>;
-	}
+    render() {
+        return this.props.children;
+    }
 }
 
 export default App;

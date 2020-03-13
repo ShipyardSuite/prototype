@@ -1,4 +1,5 @@
-import Dashboard from "./Dashboard";
+import { Overview } from "./Overview";
+import { ProjectView } from "./ProjectView";
 
-export default { Dashboard };
-export { Dashboard };
+export default { Overview, ProjectView };
+export { Overview, ProjectView };

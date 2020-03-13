@@ -1,1 +1,1 @@
-{"version":3,"sources":["app/styles/style.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA","file":"public/app.css","sourcesContent":[".DBFetcher {\n    padding: 25px;\n    font-size: 12px;\n}\n"]}
+{"version":3,"sources":["app/styles/style.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"public/app.css","sourcesContent":[".Dashboard-Loader {\n    height: 100vh;\n}\n\n.content {\n    width: 720px;\n    margin: 0 auto;\n}\n"]}

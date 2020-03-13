@@ -1,4 +1,8 @@
-.DBFetcher {
-    padding: 25px;
-    font-size: 12px;
+.Dashboard-Loader {
+    height: 100vh;
+}
+
+.content {
+    width: 720px;
+    margin: 0 auto;
 }

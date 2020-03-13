@@ -1,10 +1,9 @@
 "use strict";
 
+import { withRouter, NavLink } from "react-router-dom";
 import React, { Component } from "react";
 
-import { PageHeader } from "../../components";
-
-export default class NotFound extends Component {
+class NotFound extends Component {
     constructor(props) {
         super(props);
 
@@ -22,9 +21,17 @@ export default class NotFound extends Component {
     render() {
         return (
             <div>
-                <PageHeader />
-                <p>404: Page not found...</p>
+                <div>
+                    <h1>404</h1>
+                    <p>Page not found...</p>
+
+                    <NavLink exact to="/">
+                        Home
+                    </NavLink>
+                </div>
             </div>
         );
     }
 }
+
+export default withRouter(NotFound);

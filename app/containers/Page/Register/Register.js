@@ -1,11 +1,9 @@
 "use strict";
 
-import { Link, NavLink } from "react-router-dom";
+import { withRouter, NavLink } from "react-router-dom";
 import React, { Component } from "react";
 
-import { Button, Form, Header, Message, Segment } from "semantic-ui-react";
-
-export default class Register extends Component {
+class Register extends Component {
     constructor(props) {
         super(props);
 
@@ -18,8 +16,10 @@ export default class Register extends Component {
         };
     }
 
-    handleChange(e, { name, value }) {
-        this.setState({ [name]: value });
+    handleInputChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
     }
 
     onSignUp() {
@@ -68,14 +68,67 @@ export default class Register extends Component {
         } = this.state;
 
         return (
-            <Segment basic>
-                <Header as="h2" color="black" textAlign="center">
-                    Register new Account
-                </Header>
-                <Form size="large">
-                    <Segment raised>
-                        <Segment vertical disabled={registrationSuccess}>
-                            <Form.Input
+            <div>
+                <ul>
+                    <li>
+                        <NavLink exact to="/">
+                            Home
+                        </NavLink>
+                    </li>
+                </ul>
+                <hr />
+                <div>
+                    <h1>Register</h1>
+
+                    <div>
+                        <input
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={this.handleInputChange.bind(this)}
+                            placeholder="E-mail address"
+                        />
+                        <br />
+                        <input
+                            placeholder="Password"
+                            type="password"
+                            name="password"
+                            value={password}
+                            onChange={this.handleInputChange.bind(this)}
+                        />
+                        <br />
+                        <input
+                            placeholder="Repeat Password"
+                            type="password"
+                            name="passwordValidation"
+                            value={passwordValidation}
+                            onChange={this.handleInputChange.bind(this)}
+                        />
+                        <br />
+                        <button onClick={this.onSignUp.bind(this)}>
+                            Register
+                        </button>
+                    </div>
+
+                    {registrationSuccess ? (
+                        <p>
+                            Registration Successful, check your emails.&nbsp;
+                            <NavLink exact to="/">
+                                Back to Homepage
+                            </NavLink>
+                        </p>
+                    ) : null}
+                    {signUpError ? <p>{signUpError}</p> : null}
+                </div>
+            </div>
+        );
+    }
+}
+
+export default withRouter(Register);
+
+/*
+<Form.Input
                                 fluid
                                 type="email"
                                 icon="user"
@@ -113,22 +166,4 @@ export default class Register extends Component {
                             >
                                 Register
                             </Button>
-                        </Segment>
-                        {registrationSuccess ? (
-                            <Message color="green">
-                                Registration Successful, check your
-                                emails.&nbsp;
-                                <NavLink exact to="/">
-                                    Back to Homepage
-                                </NavLink>
-                            </Message>
-                        ) : null}
-                        {signUpError ? (
-                            <Message color="red">{signUpError}</Message>
-                        ) : null}
-                    </Segment>
-                </Form>
-            </Segment>
-        );
-    }
-}
+*/
