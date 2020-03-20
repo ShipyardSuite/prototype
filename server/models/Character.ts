@@ -1,13 +1,13 @@
-import mongoose = require("mongoose");
+import mongoose = require('mongoose');
 import Schema = mongoose.Schema;
 import Document = mongoose.Document;
 
 export interface ICharacter extends Document {
-    projectId: string;
+	projectId: String;
 }
 
 const CharacterSchema: Schema = new Schema({
-    projectId: { type: String, required: true }
+	projectId: { type: String, required: true }
 });
 
-export default mongoose.model<ICharacter>("Character", CharacterSchema);
+export default mongoose.model<ICharacter>('Character', CharacterSchema);

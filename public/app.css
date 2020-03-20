@@ -1,10 +1,75 @@
 .Dashboard-Loader {
-    height: 100vh;
+	height: 100vh;
 }
 
-.content {
-    width: 720px;
-    margin: 0 auto;
+/* .content {
+	width: 720px;
+	margin: 0 auto;
+} */
+
+.PlayerView {
+	position: relative;
+	border: 1px solid lightgray;
+	margin: 5px;
+	padding: 10px;
+	border-radius: 5px;
+	width: 350px;
+	display: inline-block;
+}
+.PlayerView h4 p {
+	font-size: 12px;
+	font-weight: normal;
+}
+.PlayerView .onlineState {
+	right: 10px;
+	top: 10px;
+	position: absolute;
+	padding: 2px 8px;
+	border-radius: 5px;
+}
+.PlayerView .onlineState.online {
+	background: green;
+	color: white;
+}
+.PlayerView .onlineState.offline {
+	background: red;
+	color: white;
+}
+
+.MessageOfTheDay {
+	padding: 10px;
+	border-radius: 5px;
+	margin: 5px;
+	border: 1px solid lightgray;
+}
+.MessageOfTheDay .state {
+	right: 10px;
+	top: 10px;
+	padding: 2px 8px;
+	border-radius: 5px;
+	display: inline-block;
+}
+.MessageOfTheDay .state.active {
+	background: green;
+	color: white;
+}
+.MessageOfTheDay .state.inactive {
+	background: red;
+	color: white;
+}
+.MessageOfTheDay .image {
+	width: 100%;
+}
+
+.react-calendar .react-calendar__month-view__days {
+	border: 1px solid slategray;
+}
+.react-calendar .react-calendar__tile {
+	background: white;
+	border: 1px solid slategray;
+}
+.react-calendar .react-calendar__tile--active {
+	background: slategray;
 }
 
 
