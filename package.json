@@ -47,7 +47,7 @@
 		"react-router": "^5.0.0",
 		"react-router-dom": "^5.0.0",
 		"react-sortablejs": "^2.0.9",
-		"redis": "^2.8.0",
+		"redis": "^3.1.1",
 		"semantic-ui-react": "^0.88.2",
 		"whatwg-fetch": "^3.0.0",
 		"xm-username-generator": "^1.0.1"
